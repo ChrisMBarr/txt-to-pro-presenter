@@ -1,0 +1,14 @@
+<section ng-controller="mainController as vm">
+    <div class="form-group" ng-repeat="slide in vm.slides">
+        <textarea>{{slide.content}}</textarea>
+        <button type="button"
+            ng-click="vm.removeSlide(slide)">
+        Remove
+    </button>
+    </div>
+    
+    <button type="button"
+            ng-click="vm.addSlide()">
+        Add
+    </button>
+</section>

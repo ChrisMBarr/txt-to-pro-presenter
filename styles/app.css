@@ -1,0 +1,8 @@
+input,
+textarea{
+    min-height: 100px;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}

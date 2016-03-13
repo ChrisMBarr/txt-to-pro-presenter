@@ -1,0 +1,8 @@
+{
+  "version": false,
+  "dependencies": {},
+  "ambientDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160310153852",
+    "jquery": "registry:dt/jquery#1.10.0+20160303223636"
+  }
+}
