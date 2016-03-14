@@ -1,14 +1,32 @@
 <section ng-controller="mainController as vm">
-    <div class="form-group" ng-repeat="slide in vm.slides">
-        <textarea>{{slide.content}}</textarea>
+    
+    <div id="options">
+        
+    </div>
+    
+    <div id="slides-container">
+        <div class="slide"
+            ng-repeat="slide in vm.slides">
+            <input type="text"
+                placeholder="title"
+                ng-model="slide.title" />
+            <textarea placeholder="content">{{slide.content}}</textarea>
+            <button type="button"
+                    ng-if="$index > 0"
+                    ng-click="vm.removeSlide(slide)">
+                        Remove
+                    </button>
+        </div>
+        
         <button type="button"
-            ng-click="vm.removeSlide(slide)">
-        Remove
-    </button>
+                class="slide-add-btn"
+                ng-click="vm.addSlide()">
+                    +
+                </button>
     </div>
     
     <button type="button"
-            ng-click="vm.addSlide()">
-        Add
-    </button>
+                ng-click="vm.getFile()">
+            Download
+        </button>
 </section>
