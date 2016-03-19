@@ -2,6 +2,19 @@
 var appModuleName = 'txtToProApp';
 var appModule = angular.module(appModuleName, []);
 /// <reference path="app-typings.d.ts" />
+var TxtToPp;
+(function (TxtToPp) {
+    var Interfaces;
+    (function (Interfaces) {
+        (function (SlideTypeEnum) {
+            SlideTypeEnum[SlideTypeEnum["Title"] = 0] = "Title";
+            SlideTypeEnum[SlideTypeEnum["Slide"] = 1] = "Slide";
+            SlideTypeEnum[SlideTypeEnum["Quote"] = 2] = "Quote";
+            SlideTypeEnum[SlideTypeEnum["Verse"] = 3] = "Verse"; //A bible verse with a reference and a body
+        })(Interfaces.SlideTypeEnum || (Interfaces.SlideTypeEnum = {}));
+        var SlideTypeEnum = Interfaces.SlideTypeEnum;
+    })(Interfaces = TxtToPp.Interfaces || (TxtToPp.Interfaces = {}));
+})(TxtToPp || (TxtToPp = {}));
 /// <reference path="app-typings.d.ts" />
 var TxtToPp;
 (function (TxtToPp) {
@@ -15,24 +28,47 @@ var TxtToPp;
                 this.slides = [
                     {
                         content: "2 Samuel 13-18",
-                        title: "Lessons in Suffering: David and Absalom"
+                        title: "Lessons in Suffering: David and Absalom",
+                        slideType: TxtToPp.Interfaces.SlideTypeEnum.Title
                     },
                     {
                         content: "",
+                        slideType: TxtToPp.Interfaces.SlideTypeEnum.Slide,
                         title: "I. David in the Palace"
                     },
                     {
                         content: "",
+                        slideType: TxtToPp.Interfaces.SlideTypeEnum.Slide,
                         title: "II. David in the Wilderness"
                     },
                     {
                         content: "A. Humility\n    1. He had to face the truth about himself\n    2. He had to face the truth that\u00A0his basic identity was not king but sinner\nB. Prayer\n\u00A0\u00A0\u00A0\u00A0\u00A0 Psalm 55:12-14, 20-21; Psalm 3\nC. Compassion",
+                        slideType: TxtToPp.Interfaces.SlideTypeEnum.Slide,
                         title: "In the wilderness David recovered:"
+                    }
+                ];
+                this.slideTypes = [
+                    {
+                        key: TxtToPp.Interfaces.SlideTypeEnum.Slide,
+                        text: "Standard Slide"
+                    },
+                    {
+                        key: TxtToPp.Interfaces.SlideTypeEnum.Title,
+                        text: "Title Slide"
+                    },
+                    {
+                        key: TxtToPp.Interfaces.SlideTypeEnum.Quote,
+                        text: "Quote Slide"
+                    },
+                    {
+                        key: TxtToPp.Interfaces.SlideTypeEnum.Verse,
+                        text: "Bible Verse"
                     }
                 ];
                 this.addSlide = function () {
                     _this.slides.push({
                         title: "",
+                        slideType: TxtToPp.Interfaces.SlideTypeEnum.Slide,
                         content: ""
                     });
                 };

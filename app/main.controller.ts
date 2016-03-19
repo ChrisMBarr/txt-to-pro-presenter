@@ -10,14 +10,17 @@ namespace TxtToPp.Controllers {
         public slides: Interfaces.ISlide[] = [
             {
                 content: "2 Samuel 13-18",
-                title: "Lessons in Suffering: David and Absalom"
+                title: "Lessons in Suffering: David and Absalom",
+                slideType: Interfaces.SlideTypeEnum.Title
             },
             {
                 content: "",
+                slideType: Interfaces.SlideTypeEnum.Slide,
                 title: "I. David in the Palace"
             },
             {
                 content: "",
+                slideType: Interfaces.SlideTypeEnum.Slide,
                 title: "II. David in the Wilderness"
             },
             {
@@ -27,13 +30,34 @@ namespace TxtToPp.Controllers {
 B. Prayer
       Psalm 55:12-14, 20-21; Psalm 3
 C. Compassion`,
+                slideType: Interfaces.SlideTypeEnum.Slide,
                 title: "In the wilderness David recovered:"
+            }
+        ];
+
+        public slideTypes: { key: Interfaces.SlideTypeEnum; text: string; }[] = [
+            {
+                key: Interfaces.SlideTypeEnum.Slide,
+                text: "Standard Slide"
+            },
+            {
+                key: Interfaces.SlideTypeEnum.Title,
+                text: "Title Slide"
+            },
+            {
+                key: Interfaces.SlideTypeEnum.Quote,
+                text: "Quote Slide"
+            },
+            {
+                key: Interfaces.SlideTypeEnum.Verse,
+                text: "Bible Verse"
             }
         ];
 
         public addSlide = () => {
             this.slides.push({
                 title: "",
+                slideType: Interfaces.SlideTypeEnum.Slide,
                 content: ""
             });
         };
@@ -46,13 +70,13 @@ C. Compassion`,
             //TODO: Download the file instead of log it out
             console.info(this.proPresenterDocService.makeFile(this.fileConfig, this.slides));
         };
-        
+
         //TODO: Expose this in the UI
-        private fileConfig:Interfaces.IProPresenterDocConfig={
-          category:"Speaker Notes",
-          height:720,
-          title:"test",
-          width:1280
+        private fileConfig: Interfaces.IProPresenterDocConfig = {
+            category: "Speaker Notes",
+            height: 720,
+            title: "test",
+            width: 1280
         };
 
     }
