@@ -23,13 +23,11 @@ namespace TxtToPp.Services {
 </RVPresentationDocument>`
         };
         
-        private getSlidesXmlString = (config:Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]):string =>{
+        private createSlide = (config:Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide, groupId:string):string=>{
             //TODO: Create real slides
-            return `<RVSlideGrouping name="" uuid="9D3CEF62-7065-49F2-A498-0953BD1FB5FE" color="0 1 1 1" serialization-array-index="2">
-            <slides containerClass="NSMutableArray">
-                <RVDisplaySlide backgroundColor="0.0313725508749485 0.2274509817361832 0.4666666686534882 1" enabled="1" highlightColor="0 0 0 0" hotKey="" label="" notes="" slideType="1" sort_index="2" UUID="C0F66050-7F02-41A2-A039-221F00562823" drawingBackgroundColor="1" chordChartPath="" serialization-array-index="0">
+            return `<RVDisplaySlide backgroundColor="0.0313725508749485 0.2274509817361832 0.4666666686534882 1" enabled="1" highlightColor="0 0 0 0" hotKey="" label="" notes="" slideType="1" sort_index="2" UUID="${this.generateUuid()}" drawingBackgroundColor="1" chordChartPath="" serialization-array-index="0">
                     <cues containerClass="NSMutableArray">
-                        <RVMediaCue displayName="Sermon Background (720p).jpg" delayTime="0" timeStamp="0" enabled="1" UUID="BCF46A08-EB86-4726-884B-6E9158CCB92A" parentUUID="2CC7F3C9-8477-497B-AECF-01645F0E2412" elementClassName="RVImageElement" behavior="1" alignment="4" serialization-array-index="0">
+                        <RVMediaCue displayName="Sermon Background (720p).jpg" delayTime="0" timeStamp="0" enabled="1" UUID="${this.generateUuid()}" parentUUID="${groupId}" elementClassName="RVImageElement" behavior="1" alignment="4" serialization-array-index="0">
                             <element displayDelay="0" displayName="Sermon Background (720p).jpg" locked="0" persistent="0" typeID="0" fromTemplate="0" bezelRadius="0" drawingFill="0" drawingShadow="0" drawingStroke="0" fillColor="1 1 1 1" rotation="0" source="file://localhost/Users/chrisbarr/Documents/Projects/Calvary/new%20logos/Pixel%20Reveal/Sermon%20Background%20(720p).jpg" flippedHorizontally="0" flippedVertically="0" scaleFactor="1" serializedImageOffset="0.000000@0.000000" serializedFilters="YnBsaXN0MDDUAQIDBAUIFhdUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABowkKD1UkbnVsbNILDA0OViRjbGFzc1pOUy5vYmplY3RzgAKg0hAREhNYJGNsYXNzZXNaJGNsYXNzbmFtZaMTFBVeTlNNdXRhYmxlQXJyYXlXTlNBcnJheVhOU09iamVjdBIAAYagXxAPTlNLZXllZEFyY2hpdmVyCBEWHygyNTo8QEZLUl1fYGVueX2MlJ2iAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=" scaleBehavior="3" brightness="0" contrast="1" saturation="1" hue="0" manufactureURL="" manufactureName="" format="JPEG image" enableColorFilter="0" colorFilter="1 0 0 1" enableBlur="0" blurRadius="0" enableEdgeBlur="0" edgeBlurRadius="0" edgeBlurArea="0" enableSepia="0" enableColorInvert="0" enableGrayInvert="0" enableHeatSignature="0">
                                 <_-RVRect3D-_position x="0" y="0" z="0" width="1680" height="1050" />
                                 <_-D-_serializedShadow containerClass="NSMutableDictionary">
@@ -60,9 +58,30 @@ namespace TxtToPp.Services {
                         </RVTextElement>
                     </displayElements>
                     <_-RVProTransitionObject-_transitionObject transitionType="-1" transitionDuration="1" motionEnabled="0" motionDuration="20" motionSpeed="100" />
-                </RVDisplaySlide>
-            </slides>
-        </RVSlideGrouping>`;
+                </RVDisplaySlide>`;
+        };
+        
+        private getSlidesXmlString = (config:Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]):string =>{
+            const groupUuid = this.generateUuid();
+            let slideGroup = `<RVSlideGrouping name="" uuid="${groupUuid}" color="0 1 1 1" serialization-array-index="2">
+            <slides containerClass="NSMutableArray">`
+                
+                for(let s of slides){
+                    slideGroup += this.createSlide(config, s, groupUuid);
+                }
+                
+            slideGroup += `            </slides>
+                    </RVSlideGrouping>`;
+        
+            return slideGroup;
+        };
+        
+        private generateUuid =() => {
+            //Native PP ID Example: 26AAF905-8F45-4252-BFAB-4C10CCFE1476
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         };
 
     }
