@@ -6,14 +6,14 @@
 		{
 			"taskName": "build",
 			"isBuildCommand": true,
-			"showOutput": "always",
+			"showOutput": "silent",
 			"args": [],
             "problemMatcher": ["$tsc"]
 		},
 		{
 			"taskName": "watch",
 			"isBuildCommand": true,
-			"showOutput": "always"
+			"showOutput": "silent"
 		}
 	]
 }
