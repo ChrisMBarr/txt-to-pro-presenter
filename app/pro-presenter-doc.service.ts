@@ -1,7 +1,7 @@
 /// <reference path="app-typings.d.ts" />
 namespace TxtToPp.Services {
 
-    const creatorCode = "TxtToProPresenter";
+    const creatorCode = "1349676880";
 
     export class ProPresenterDocService {
 
@@ -9,14 +9,15 @@ namespace TxtToPp.Services {
 
         public makeFile = (config: Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]): string => {
             const today = new Date();
-            return `<RVPresentationDocument height="${config.height}" width="${config.width}" versionNumber="500" docType="0" creatorCode="${creatorCode}" lastDateUsed="${today.toISOString()}" usedCount="0" category="${config.category}" resourcesDirectory="" backgroundColor="0 0 0 1" drawingBackgroundColor="0" notes="" artist="" author="" album="" CCLIDisplay="0" CCLIArtistCredits="" CCLISongTitle="${config.title}" CCLIPublisher="" CCLICopyrightInfo="${today.getFullYear()}" CCLILicenseNumber="" chordChartPath="">
+            const dateStr = today.toISOString().split(".")[0];
+            return `<RVPresentationDocument height="${config.height}" width="${config.width}" versionNumber="500" docType="0" creatorCode="${creatorCode}" lastDateUsed="${dateStr}" usedCount="0" category="${config.category}" resourcesDirectory="" backgroundColor="0 0 0 1" drawingBackgroundColor="0" notes="" artist="" author="" album="" CCLIDisplay="0" CCLIArtistCredits="" CCLISongTitle="${config.title}" CCLIPublisher="" CCLICopyrightInfo="${today.getFullYear()}" CCLILicenseNumber="" chordChartPath="">
     <timeline timeOffSet="0" selectedMediaTrackIndex="0" unitOfMeasure="60" duration="0" loop="0">
-        <timeCues containerClass="NSMutableArray" />
-        <mediaTracks containerClass="NSMutableArray" />
+        <timeCues containerClass="NSMutableArray"></timeCues>
+        <mediaTracks containerClass="NSMutableArray"></mediaTracks>
     </timeline>
-    <bibleReference containerClass="NSMutableDictionary" />
-    <arrangements containerClass="NSMutableArray" />
-    <_-RVProTransitionObject-_transitionObject transitionType="-1" transitionDuration="1" motionEnabled="0" motionDuration="20" motionSpeed="100" />
+    <bibleReference containerClass="NSMutableDictionary"></bibleReference>
+    <arrangements containerClass="NSMutableArray"></arrangements>
+    <_-RVProTransitionObject-_transitionObject transitionType="-1" transitionDuration="1" motionEnabled="0" motionDuration="20" motionSpeed="100"></_-RVProTransitionObject-_transitionObject>
     <groups containerClass="NSMutableArray">
         ${this.getSlidesXmlString(config, slides)}
     </groups>
@@ -25,40 +26,23 @@ namespace TxtToPp.Services {
         
         private getSlidesXmlString = (config: Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]): string => {
             const groupUuid = this.generateUuid();
-            let slideGroup = `<RVSlideGrouping name="" uuid="${groupUuid}" color="0 1 1 1" serialization-array-index="2">
+            let slideGroup = `<RVSlideGrouping name="" uuid="${groupUuid}" color="0 1 1 1" serialization-array-index="0">
             <slides containerClass="NSMutableArray">`
 
             for (let s of slides) {
                 slideGroup += this.createSlide(config, s, groupUuid);
             }
 
-            slideGroup += `            </slides>
-                    </RVSlideGrouping>`;
+            slideGroup += `</slides>\n</RVSlideGrouping>`;
 
             return slideGroup;
         };
 
         private createSlide = (config: Interfaces.IProPresenterDocConfig, slide: Interfaces.ISlide, groupId: string): string => {
-            const bgImgPath = "file://localhost/Users/chrisbarr/Documents/Projects/Calvary/new%20logos/Pixel%20Reveal/Sermon%20Background%20(720p).jpg";
-
+            //const bgImgPath = "file://localhost/Users/chrisbarr/Documents/Projects/Calvary/new%20logos/Pixel%20Reveal/Sermon%20Background%20(720p).jpg";
+            //const cueName = `Sermon Background (720p).jpg`;
             let displaySlide =  `<RVDisplaySlide backgroundColor="0.0313725508749485 0.2274509817361832 0.4666666686534882 1" enabled="1" highlightColor="0 0 0 0" hotKey="" label="" notes="" slideType="1" sort_index="2" UUID="${this.generateUuid()}" drawingBackgroundColor="1" chordChartPath="" serialization-array-index="0">
-                    <cues containerClass="NSMutableArray">
-                        <RVMediaCue displayName="Sermon Background (720p).jpg" delayTime="0" timeStamp="0" enabled="1" UUID="${this.generateUuid()}" parentUUID="${groupId}" elementClassName="RVImageElement" behavior="1" alignment="4" serialization-array-index="0">
-                            <element displayDelay="0" displayName="Sermon Background (720p).jpg" locked="0" persistent="0" typeID="0" fromTemplate="0" bezelRadius="0" drawingFill="0" drawingShadow="0" drawingStroke="0" fillColor="1 1 1 1" rotation="0" source="${bgImgPath}" flippedHorizontally="0" flippedVertically="0" scaleFactor="1" serializedImageOffset="0.000000@0.000000" serializedFilters="YnBsaXN0MDDUAQIDBAUIFhdUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABowkKD1UkbnVsbNILDA0OViRjbGFzc1pOUy5vYmplY3RzgAKg0hAREhNYJGNsYXNzZXNaJGNsYXNzbmFtZaMTFBVeTlNNdXRhYmxlQXJyYXlXTlNBcnJheVhOU09iamVjdBIAAYagXxAPTlNLZXllZEFyY2hpdmVyCBEWHygyNTo8QEZLUl1fYGVueX2MlJ2iAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=" scaleBehavior="3" brightness="0" contrast="1" saturation="1" hue="0" manufactureURL="" manufactureName="" format="JPEG image" enableColorFilter="0" colorFilter="1 0 0 1" enableBlur="0" blurRadius="0" enableEdgeBlur="0" edgeBlurRadius="0" edgeBlurArea="0" enableSepia="0" enableColorInvert="0" enableGrayInvert="0" enableHeatSignature="0">
-                                <_-RVRect3D-_position x="0" y="0" z="0" width="1680" height="1050" />
-                                <_-D-_serializedShadow containerClass="NSMutableDictionary">
-                                    <NSMutableString serialization-native-value="{5, -5}" serialization-dictionary-key="shadowOffset" />
-                                    <NSNumber serialization-native-value="0" serialization-dictionary-key="shadowBlurRadius" />
-                                    <NSColor serialization-native-value="0 0 0 0.3333333432674408" serialization-dictionary-key="shadowColor" />
-                                </_-D-_serializedShadow>
-                                <stroke containerClass="NSMutableDictionary">
-                                    <NSColor serialization-native-value="0 0 0 1" serialization-dictionary-key="RVShapeElementStrokeColorKey" />
-                                    <NSNumber serialization-native-value="1" serialization-dictionary-key="RVShapeElementStrokeWidthKey" />
-                                </stroke>
-                            </element>
-                            <_-RVProTransitionObject-_transitionObject />
-                        </RVMediaCue>
-                    </cues>
+                    <cues containerClass="NSMutableArray"></cues>
                     <displayElements containerClass="NSMutableArray">`
                     
                     if(slide.title){
@@ -69,8 +53,9 @@ namespace TxtToPp.Services {
                     }
                     
                     displaySlide +=`</displayElements>
-                    <_-RVProTransitionObject-_transitionObject transitionType="-1" transitionDuration="1" motionEnabled="0" motionDuration="20" motionSpeed="100" />
-                </RVDisplaySlide>`;
+                    <_-RVProTransitionObject-_transitionObject transitionType="-1" transitionDuration="1" motionEnabled="0" motionDuration="20" motionSpeed="100"></_-RVProTransitionObject-_transitionObject>
+                </RVDisplaySlide>
+                `;
                 
                 return displaySlide;
         };

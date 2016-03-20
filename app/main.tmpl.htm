@@ -8,7 +8,7 @@
         <div class="slide" ng-repeat="slide in vm.slides">
             <select ng-model="slide.slideType" ng-options="opt.key as opt.text for opt in ::vm.slideTypes"></select>
             <input type="text" placeholder="title" ng-model="slide.title" />
-            <textarea placeholder="content">{{slide.content}}</textarea>
+            <textarea placeholder="content" ng-model="slide.content"></textarea>
             <button type="button" ng-if="$index > 0" ng-click="vm.removeSlide(slide)">
                 Remove
             </button>
