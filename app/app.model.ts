@@ -18,5 +18,6 @@ namespace TxtToPp.Interfaces {
         width: number;
         title: string;
         category: string;
+        fontName: string;
     }
 }
