@@ -14,6 +14,11 @@
 			"taskName": "watch",
 			"isBuildCommand": true,
 			"showOutput": "silent"
+		},
+        {
+			"taskName": "lint",
+			"isBuildCommand": false,
+			"showOutput": "always"
 		}
 	]
 }

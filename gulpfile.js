@@ -1,8 +1,11 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
+var tslint = require('gulp-tslint');
+
+var TS_FILES = ['app/**/*.ts', '!app/**/*.d.ts'];
 
 gulp.task('build', function() {
-  var tsResult = gulp.src('app/**/*.ts')
+  var tsResult = gulp.src(TS_FILES)
     .pipe(ts({
         noImplicitAny: true,
         suppressImplicitAnyIndexErrors: true,
@@ -13,5 +16,11 @@ gulp.task('build', function() {
 });
  
 gulp.task('watch', function () {
-  gulp.watch('app/*.ts', ['build']);
+  gulp.watch(TS_FILES, ['build']);
+});
+
+gulp.task("lint", function(){
+    gulp.src(TS_FILES)
+        .pipe(tslint())
+        .pipe(tslint.report("prose"));
 });
