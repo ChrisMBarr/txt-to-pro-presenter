@@ -14,6 +14,7 @@ namespace TxtToPp.Interfaces {
     }
 
     export interface IDisplayElementConfig {
+        color:IRgbColor;
         fontName: string;
         posX: number;
         posY: number;
@@ -31,4 +32,10 @@ namespace TxtToPp.Interfaces {
             slideContent: IDisplayElementConfig;
         }
     }
+    
+    export interface IRgbColor {
+        r: number;
+        g: number;
+        b: number;
+    };
 }

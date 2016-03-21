@@ -4,8 +4,10 @@ namespace TxtToPp.Services {
     const creatorCode = "1349676880";
 
     export class ProPresenterDocService {
+        
+        public static $inject = ["richTextFormatterService"];
 
-        constructor() { }
+        constructor(private RtfSvc:Services.RichTextFormatterService) { }
 
         public makeFile = (config: Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]): string => {
             const today = new Date();
@@ -64,7 +66,7 @@ namespace TxtToPp.Services {
         
         private makeTextElement = (displayElementConfig: Interfaces.IDisplayElementConfig, content: string)=>{
             //Base64 encode the RTF string
-            const rtfData = btoa(this.makeRtfData(displayElementConfig, content));
+            const rtfData = btoa(this.RtfSvc.makeRtfData(displayElementConfig, content));
             
             return `<RVTextElement displayDelay="0" displayName="" locked="0" persistent="0" typeID="0" fromTemplate="0" bezelRadius="0" drawingFill="0" drawingShadow="0" drawingStroke="0" fillColor="0 0 0 0" rotation="0" source="" adjustsHeightToFit="1" verticalAlignment="1" RTFData="${rtfData}" revealType="0" serialization-array-index="0">
                 <_-RVRect3D-_position x="${displayElementConfig.posX}" y="${displayElementConfig.posY}" z="0" width="${displayElementConfig.width}" height="${displayElementConfig.height}" />
@@ -80,16 +82,6 @@ namespace TxtToPp.Services {
             </RVTextElement>`
         };
 
-        private makeRtfData = (displayElementConfig: Interfaces.IDisplayElementConfig, content: string): string => {
-            //NOTE: We must escape the slashes here!  RTF data normally only has the one slashe to separate each data item.
-            return `{\\rtf1\\ansi\\ansicpg1252\\cocoartf1404\\cocoasubrtf340
-\\cocoascreenfonts1{\\fonttbl\\f0\\fnil\\fcharset0 ${displayElementConfig.fontName};}
-{\\colortbl;\\red255\\green255\\blue255;}
-\\pard\\tx560\\tx1120\\tx1680\\tx2240\\tx2800\\tx3360\\tx3920\\tx4480\\tx5040\\tx5600\\tx6160\\tx6720\\pardirnatural
-
-\\f0\\fs180 \\cf1 ${content}}`;
-        };
-        
         private generateUuid = () => {
             //Native PP ID Example: 26AAF905-8F45-4252-BFAB-4C10CCFE1476
             function s4() {

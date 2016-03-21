@@ -63,6 +63,7 @@ namespace TxtToPp.Controllers {
             title: "test",
             displayElementConfigs: {
                 slideTitle: {
+                    color: { r: 255, g: 255, b: 255 },
                     fontName: "Futura-Medium",
                     posX: 29.04599,
                     posY: 2,
@@ -70,6 +71,7 @@ namespace TxtToPp.Controllers {
                     width: 118.6807
                 },
                 slideContent: {
+                    color: { r: 255, g: 255, b: 255 },
                     fontName: "Futura-Medium",
                     posX: 56.26352,
                     posY: 145,
