@@ -59,9 +59,24 @@ namespace TxtToPp.Controllers {
         //TODO: Expose this in the UI
         private fileConfig: Interfaces.IProPresenterDocConfig = {
             category: "Speaker Notes",
-            fontName: "Futura-Medium",
             height: 720,
             title: "test",
+            displayElementConfigs: {
+                slideTitle: {
+                    fontName: "Futura-Medium",
+                    posX: 29.04599,
+                    posY: 2,
+                    height: 1221.908,
+                    width: 118.6807
+                },
+                slideContent: {
+                    fontName: "Futura-Medium",
+                    posX: 56.26352,
+                    posY: 145,
+                    height: 1182.772,
+                    width: 319.1484
+                }
+            },
             width: 1280
         };
 
