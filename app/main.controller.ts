@@ -1,17 +1,49 @@
 /// <reference path="app-typings.d.ts" />
 namespace TxtToPp.Controllers {
+    'use strict';
+    
     export class MainController {
 
-        public static $inject = ["proPresenterDocService"]
+        public static $inject = ["proPresenterDocService"];
 
         constructor(private proPresenterDocService: Services.ProPresenterDocService) { }
+        
+        //TODO: Expose this in the UI
+        public fileConfig: Interfaces.IProPresenterDocConfig = {
+            category: "Speaker Notes",
+            displayElementConfigs: {
+                slideContent: {
+                    /* tslint:disable: object-literal-sort-keys */
+                    color: { r: 255, g: 255, b: 255 },
+                    /* tslint:enable: object-literal-sort-keys */
+                    fontName: "Futura-Medium",
+                    height: 1182.772,
+                    posX: 56.26352,
+                    posY: 145,
+                    width: 319.1484
+                },
+                slideTitle: {
+                    /* tslint:disable: object-literal-sort-keys */
+                    color: { r: 255, g: 255, b: 255 },
+                    /* tslint:enable: object-literal-sort-keys */
+                    fontName: "Futura-Medium",
+                    height: 1221.908,
+                    posX: 29.04599,
+                    posY: 2,
+                    width: 118.6807
+                }
+            },
+            height: 720,
+            title: "test",
+            width: 1280
+        };
 
         //Start with an empty slide showing
         public slides: Interfaces.ISlide[] = [
             {
                 content: "Title Slide Content",
-                title: "Title Slide Title",
-                slideType: Interfaces.SlideTypeEnum.Title
+                slideType: Interfaces.SlideTypeEnum.Title,
+                title: "Title Slide Title"
             },
             {
                 content: "Standard Slide Conent",
@@ -41,9 +73,9 @@ namespace TxtToPp.Controllers {
 
         public addSlide = () => {
             this.slides.push({
-                title: "",
+                content: "",
                 slideType: Interfaces.SlideTypeEnum.Slide,
-                content: ""
+                title: ""
             });
         };
 
@@ -56,35 +88,11 @@ namespace TxtToPp.Controllers {
             console.info(this.proPresenterDocService.makeFile(this.fileConfig, this.slides));
         };
 
-        //TODO: Expose this in the UI
-        private fileConfig: Interfaces.IProPresenterDocConfig = {
-            category: "Speaker Notes",
-            height: 720,
-            title: "test",
-            displayElementConfigs: {
-                slideTitle: {
-                    color: { r: 255, g: 255, b: 255 },
-                    fontName: "Futura-Medium",
-                    posX: 29.04599,
-                    posY: 2,
-                    height: 1221.908,
-                    width: 118.6807
-                },
-                slideContent: {
-                    color: { r: 255, g: 255, b: 255 },
-                    fontName: "Futura-Medium",
-                    posX: 56.26352,
-                    posY: 145,
-                    height: 1182.772,
-                    width: 319.1484
-                }
-            },
-            width: 1280
-        };
+        
 
     }
 
     angular
         .module(appModuleName)
-        .controller("mainController", MainController)
+        .controller("mainController", MainController);
 }

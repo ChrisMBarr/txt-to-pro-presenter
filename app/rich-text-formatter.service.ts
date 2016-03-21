@@ -1,9 +1,10 @@
 /// <reference path="app-typings.d.ts" />
 namespace TxtToPp.Services {
+    'use strict';
 
     export class RichTextFormatterService {
 
-        constructor() { }
+        //constructor() { }
 
         public makeRtfData = (displayElementConfig: Interfaces.IDisplayElementConfig, content: string): string => {
             //NOTE: We must escape the slashes here!  RTF data normally only has the one slashe to separate each data item.
@@ -20,5 +21,5 @@ namespace TxtToPp.Services {
 
     angular
         .module(appModuleName)
-        .service("richTextFormatterService", RichTextFormatterService)
+        .service("richTextFormatterService", RichTextFormatterService);
 }
