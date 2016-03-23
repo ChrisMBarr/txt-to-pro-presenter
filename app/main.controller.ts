@@ -4,11 +4,9 @@ namespace TxtToPp.Controllers {
     
     export class MainController {
 
-        public static $inject = ["proPresenterDocService"];
+        public static $inject = ["$window", "proPresenterDocService"];
 
-        constructor(private proPresenterDocService: Services.ProPresenterDocService) { }
-        
-        public fileText = "";
+        constructor(private $window: angular.IWindowService, private proPresenterDocService: Services.ProPresenterDocService) { }
         
         //TODO: Expose this in the UI
         public fileConfig: Interfaces.IProPresenterDocConfig = {
@@ -86,8 +84,8 @@ namespace TxtToPp.Controllers {
         };
 
         public getFile = () => {
-            //TODO: Download the file instead of this
-            this.fileText = this.proPresenterDocService.makeFile(this.fileConfig, this.slides);
+            let ppFile = this.proPresenterDocService.makeFile(this.fileConfig, this.slides);
+            this.$window.open("data:text/xml;charset=utf-8," + encodeURIComponent(ppFile));
         };
     }
 

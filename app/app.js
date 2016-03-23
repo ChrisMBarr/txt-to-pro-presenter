@@ -28,10 +28,10 @@ var TxtToPp;
     (function (Controllers) {
         'use strict';
         var MainController = (function () {
-            function MainController(proPresenterDocService) {
+            function MainController($window, proPresenterDocService) {
                 var _this = this;
+                this.$window = $window;
                 this.proPresenterDocService = proPresenterDocService;
-                this.fileText = "";
                 this.fileConfig = {
                     category: "Speaker Notes",
                     displayElementConfigs: {
@@ -97,10 +97,11 @@ var TxtToPp;
                     _this.slides.splice(_this.slides.indexOf(slide), 1);
                 };
                 this.getFile = function () {
-                    _this.fileText = _this.proPresenterDocService.makeFile(_this.fileConfig, _this.slides);
+                    var ppFile = _this.proPresenterDocService.makeFile(_this.fileConfig, _this.slides);
+                    _this.$window.open("data:text/xml;charset=utf-8," + encodeURIComponent(ppFile));
                 };
             }
-            MainController.$inject = ["proPresenterDocService"];
+            MainController.$inject = ["$window", "proPresenterDocService"];
             return MainController;
         }());
         Controllers.MainController = MainController;
