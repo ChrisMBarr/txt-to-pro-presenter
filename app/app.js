@@ -1,7 +1,10 @@
 var TxtToPp;
 (function (TxtToPp) {
     TxtToPp.appModuleName = 'txtToProApp';
-    angular.module(TxtToPp.appModuleName, []);
+    var app = angular.module(TxtToPp.appModuleName, []);
+    app.config(['$compileProvider', function ($compileProvider) {
+            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
+        }]);
 })(TxtToPp || (TxtToPp = {}));
 var TxtToPp;
 (function (TxtToPp) {
@@ -32,6 +35,7 @@ var TxtToPp;
                 var _this = this;
                 this.$window = $window;
                 this.proPresenterDocService = proPresenterDocService;
+                this.fileContents = "#";
                 this.fileConfig = {
                     category: "Speaker Notes",
                     displayElementConfigs: {
@@ -96,9 +100,10 @@ var TxtToPp;
                 this.removeSlide = function (slide) {
                     _this.slides.splice(_this.slides.indexOf(slide), 1);
                 };
-                this.getFile = function () {
+                this.generateFile = function () {
                     var ppFile = _this.proPresenterDocService.makeFile(_this.fileConfig, _this.slides);
-                    _this.$window.open("data:text/xml;charset=utf-8," + encodeURIComponent(ppFile));
+                    var blob = new Blob([ppFile], { type: 'text/xml' });
+                    _this.fileContents = _this.$window.URL.createObjectURL(blob);
                 };
             }
             MainController.$inject = ["$window", "proPresenterDocService"];

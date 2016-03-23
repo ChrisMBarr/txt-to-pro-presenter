@@ -6,7 +6,9 @@ namespace TxtToPp.Controllers {
 
         public static $inject = ["$window", "proPresenterDocService"];
 
-        constructor(private $window: angular.IWindowService, private proPresenterDocService: Services.ProPresenterDocService) { }
+        constructor(private $window:angular.IWindowService, private proPresenterDocService: Services.ProPresenterDocService) { }
+        
+        public fileContents = "#";
         
         //TODO: Expose this in the UI
         public fileConfig: Interfaces.IProPresenterDocConfig = {
@@ -83,9 +85,10 @@ namespace TxtToPp.Controllers {
             this.slides.splice(this.slides.indexOf(slide), 1);
         };
 
-        public getFile = () => {
+        public generateFile = () => {
             let ppFile = this.proPresenterDocService.makeFile(this.fileConfig, this.slides);
-            this.$window.open("data:text/xml;charset=utf-8," + encodeURIComponent(ppFile));
+            var blob = new Blob([ ppFile ], { type : 'text/xml' });
+            this.fileContents = this.$window.URL.createObjectURL( blob );
         };
     }
 
