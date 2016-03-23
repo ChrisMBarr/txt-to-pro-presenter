@@ -1,3 +1,5 @@
 /// <reference path="app-typings.d.ts" />
-const appModuleName = 'txtToProApp';
-const appModule = angular.module(appModuleName, []);
+namespace TxtToPp{
+    export const appModuleName = 'txtToProApp';
+    angular.module(appModuleName, []);
+}
