@@ -42,18 +42,18 @@ var TxtToPp;
                         slideContent: {
                             color: { r: 255, g: 255, b: 255 },
                             fontName: "Futura-Medium",
-                            height: 1182.772,
+                            height: 319.1484,
                             posX: 56.26352,
                             posY: 145,
-                            width: 319.1484
+                            width: 1182.772
                         },
                         slideTitle: {
                             color: { r: 255, g: 255, b: 255 },
                             fontName: "Futura-Medium",
-                            height: 1221.908,
+                            height: 118.6807,
                             posX: 29.04599,
                             posY: 2,
-                            width: 118.6807
+                            width: 1221.908
                         }
                     },
                     height: 720,
