@@ -8,6 +8,8 @@ namespace TxtToPp.Controllers {
 
         constructor(private proPresenterDocService: Services.ProPresenterDocService) { }
         
+        public fileText = "";
+        
         //TODO: Expose this in the UI
         public fileConfig: Interfaces.IProPresenterDocConfig = {
             category: "Speaker Notes",
@@ -84,12 +86,9 @@ namespace TxtToPp.Controllers {
         };
 
         public getFile = () => {
-            //TODO: Download the file instead of log it out
-            console.info(this.proPresenterDocService.makeFile(this.fileConfig, this.slides));
+            //TODO: Download the file instead of this
+            this.fileText = this.proPresenterDocService.makeFile(this.fileConfig, this.slides);
         };
-
-        
-
     }
 
     angular

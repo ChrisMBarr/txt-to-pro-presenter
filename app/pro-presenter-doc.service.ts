@@ -11,6 +11,7 @@ namespace TxtToPp.Services {
         constructor(private rtfSvc: Services.RichTextFormatterService) { }
 
         public makeFile = (config: Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]): string => {
+            /* tslint:disable: max-line-length */
             const today = new Date();
             const dateStr = today.toISOString().split(".")[0]; //remove the seconds from the date
             return `<RVPresentationDocument height="${config.height}" width="${config.width}" versionNumber="500" docType="0" creatorCode="${creatorCode}" lastDateUsed="${dateStr}" usedCount="0" category="${config.category}" resourcesDirectory="" backgroundColor="0 0 0 1" drawingBackgroundColor="0" notes="" artist="" author="" album="" CCLIDisplay="0" CCLIArtistCredits="" CCLISongTitle="${config.title}" CCLIPublisher="" CCLICopyrightInfo="${today.getFullYear()}" CCLILicenseNumber="" chordChartPath="">
@@ -25,6 +26,7 @@ namespace TxtToPp.Services {
         ${this.getSlidesXmlString(config, slides)}
     </groups>
 </RVPresentationDocument>`;
+            /* tslint:enable: max-line-length */
         };
 
         private getSlidesXmlString = (config: Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]): string => {
@@ -43,6 +45,7 @@ namespace TxtToPp.Services {
         };
 
         private createSlide = (config: Interfaces.IProPresenterDocConfig, slide: Interfaces.ISlide, groupId: string): string => {
+            /* tslint:disable: max-line-length */
             //const bgImgPath = "file://localhost/Users/chrisbarr/Documents/Projects/Calvary/new%20logos/Pixel%20Reveal/Sermon%20Background%20(720p).jpg";
             //const cueName = `Sermon Background (720p).jpg`;
             const slideBgColorRgba = `0.0313725508749485 0.2274509817361832 0.4666666686534882 1`;
@@ -56,19 +59,21 @@ namespace TxtToPp.Services {
             if (slide.content) {
                 displaySlide += this.makeTextElement(config.displayElementConfigs.slideContent, slide.content);
             }
-
+            
             displaySlide += `</displayElements>
                     <_-RVProTransitionObject-_transitionObject transitionType="-1" transitionDuration="1" motionEnabled="0" motionDuration="20" motionSpeed="100"></_-RVProTransitionObject-_transitionObject>
                 </RVDisplaySlide>
                 `;
-
+            
             return displaySlide;
+            /* tslint:enable: max-line-length */
         };
 
         private makeTextElement = (displayElementConfig: Interfaces.IDisplayElementConfig, content: string) => {
             //Base64 encode the RTF string
             const rtfData = btoa(this.rtfSvc.makeRtfData(displayElementConfig, content));
-
+            
+            /* tslint:disable: max-line-length */
             return `<RVTextElement displayDelay="0" displayName="" locked="0" persistent="0" typeID="0" fromTemplate="0" bezelRadius="0" drawingFill="0" drawingShadow="0" drawingStroke="0" fillColor="0 0 0 0" rotation="0" source="" adjustsHeightToFit="1" verticalAlignment="1" RTFData="${rtfData}" revealType="0" serialization-array-index="0">
                 <_-RVRect3D-_position x="${displayElementConfig.posX}" y="${displayElementConfig.posY}" z="0" width="${displayElementConfig.width}" height="${displayElementConfig.height}" />
                 <_-D-_serializedShadow containerClass="NSMutableDictionary">
@@ -81,6 +86,7 @@ namespace TxtToPp.Services {
                     <NSNumber serialization-native-value="1" serialization-dictionary-key="RVShapeElementStrokeWidthKey" />
                 </stroke>
             </RVTextElement>`;
+            /* tslint:enable: max-line-length */
         };
 
         private generateUuid = () => {
