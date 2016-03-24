@@ -1,6 +1,8 @@
 /// <reference path="app-typings.d.ts" />
 namespace TxtToPp.Controllers {
     'use strict';
+    
+    const fileExt = "pro5";
 
     export class MainController {
 
@@ -29,7 +31,7 @@ namespace TxtToPp.Controllers {
         }
 
         public fileContents = "#";
-        public fileName = "file.pro5";
+        public fileName = `file.${fileExt}`;
         public titleColorHex = "";
         public contentColorHex = "";
 
@@ -111,7 +113,7 @@ namespace TxtToPp.Controllers {
             let ppFile = this.proPresenterDocService.makeFile(this.fileConfig, this.slides);
             var blob = new Blob([ppFile], { type: 'text/xml' });
             this.fileContents = this.$window.URL.createObjectURL(blob);
-            this.fileName = `${this.fileConfig.title.replace(/\s/g, "-")}.pro5`;
+            this.fileName = `${this.fileConfig.title.replace(/\s/g, "-")}.${fileExt}`;
         };
     }
 

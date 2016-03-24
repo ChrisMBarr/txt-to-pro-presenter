@@ -30,6 +30,7 @@ var TxtToPp;
     var Controllers;
     (function (Controllers) {
         'use strict';
+        var fileExt = "pro5";
         var MainController = (function () {
             function MainController($scope, $window, proPresenterDocService, colorService) {
                 var _this = this;
@@ -38,7 +39,7 @@ var TxtToPp;
                 this.proPresenterDocService = proPresenterDocService;
                 this.colorService = colorService;
                 this.fileContents = "#";
-                this.fileName = "file.pro5";
+                this.fileName = "file." + fileExt;
                 this.titleColorHex = "";
                 this.contentColorHex = "";
                 this.fileConfig = {
@@ -109,7 +110,7 @@ var TxtToPp;
                     var ppFile = _this.proPresenterDocService.makeFile(_this.fileConfig, _this.slides);
                     var blob = new Blob([ppFile], { type: 'text/xml' });
                     _this.fileContents = _this.$window.URL.createObjectURL(blob);
-                    _this.fileName = _this.fileConfig.title.replace(/\s/g, "-") + ".pro5";
+                    _this.fileName = _this.fileConfig.title.replace(/\s/g, "-") + "." + fileExt;
                 };
                 this.titleColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideTitle.color);
                 this.contentColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideContent.color);
