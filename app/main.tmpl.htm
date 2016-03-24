@@ -4,22 +4,30 @@
         
     </div>
     
-    <div id="slides-container">
-        <div class="slide" ng-repeat="slide in vm.slides">
-            <select ng-model="slide.slideType" ng-options="opt.key as opt.text for opt in ::vm.slideTypes"></select>
-            <input type="text" placeholder="title" ng-model="slide.title" />
-            <textarea placeholder="content" ng-model="slide.content"></textarea>
-            <button type="button" ng-if="$index > 0" ng-click="vm.removeSlide(slide)">
-                Remove
-            </button>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Slides</h3>
         </div>
-        
-        <button type="button" class="slide-add-btn" ng-click="vm.addSlide()">
-            +
-        </button>
+        <div class="panel-body">
+            <div id="slides-container">
+                <div class="slide" ng-repeat="slide in vm.slides">
+                    <!--<select class="form-control" ng-model="slide.slideType" ng-options="opt.key as opt.text for opt in ::vm.slideTypes"></select>-->
+                    <input type="text" class="form-control" placeholder="title" ng-model="slide.title" />
+                    <textarea class="form-control" placeholder="content" ng-model="slide.content"></textarea>
+                    <button type="button" class="btn btn-danger btn-sm" ng-if="$index > 0" ng-click="vm.removeSlide(slide)">
+                        Remove
+                    </button>
+                </div>
+                
+                <button type="button" class="slide-add-btn" ng-click="vm.addSlide()">
+                    +
+                </button>
+            </div>
+        </div>
     </div>
     
-    <a ng-click="vm.generateFile()" ng-href="{{vm.fileContents}}" download="file.pro5">
+    <a class="btn btn-primary btn-lg" download="file.pro5" ng-click="vm.generateFile()" ng-href="{{vm.fileContents}}">
+        <span class="glyphicon glyphicon-save-file"></span>
         Download
     </button>
 </section>
