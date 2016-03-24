@@ -1,8 +1,10 @@
 #Text-To-ProPresenter
 
-##TODO Items
+##Demo: http://chrismbarr.github.io/txt-to-pro-presenter/
+
+###TODO Items
  
- * Figure out how to do fonr sizes in RTF
+ * Figure out how to do font sizes in RTF
  * Figure out how to detect & color bullet points in the slide content differently than the text
  * Import settings from existing `*.pro5` file
  * Import slides from plain text file parsing
