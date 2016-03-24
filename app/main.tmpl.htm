@@ -116,7 +116,10 @@
         </div>
     </div>
     
-    <a class="btn btn-primary btn-lg" download="file.pro5" ng-click="vm.generateFile()" ng-href="{{vm.fileContents}}">
+    <a class="btn btn-primary btn-lg"
+        ng-click="vm.generateFile()"
+        ng-href="{{vm.fileContents}}"
+        ng-attr-download="{{vm.fileName}}">
         <span class="glyphicon glyphicon-save-file"></span>
         Download
     </button>
