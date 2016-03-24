@@ -1,16 +1,37 @@
 /// <reference path="app-typings.d.ts" />
 namespace TxtToPp.Controllers {
     'use strict';
-    
+
     export class MainController {
 
-        public static $inject = ["$window", "proPresenterDocService"];
+        public static $inject = ["$scope", "$window", "proPresenterDocService", "colorService"];
 
-        constructor(private $window:angular.IWindowService, private proPresenterDocService: Services.ProPresenterDocService) { }
-        
+        constructor(
+            private $scope: angular.IScope,
+            private $window: angular.IWindowService,
+            private proPresenterDocService: Services.ProPresenterDocService,
+            private colorService: Services.ColorService) {
+
+            //Initially convert these colors
+            this.titleColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideTitle.color);
+            this.contentColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideContent.color);
+
+            //Wathc these HEX values for changes and update them to RGB colors
+            this.$scope.$watch("vm.titleColorHex", (val: string) => {
+                this.fileConfig.displayElementConfigs.slideTitle.color = this.colorService.hexToRgbColor(val);
+            });
+
+            this.$scope.$watch("vm.contentColorHex", (val: string) => {
+                this.fileConfig.displayElementConfigs.slideContent.color = this.colorService.hexToRgbColor(val);
+            });
+
+
+        }
+
         public fileContents = "#";
-        
-        //TODO: Expose this in the UI
+        public titleColorHex = "";
+        public contentColorHex = "";
+
         public fileConfig: Interfaces.IProPresenterDocConfig = {
             category: "Speaker Notes",
             displayElementConfigs: {
@@ -87,8 +108,8 @@ namespace TxtToPp.Controllers {
 
         public generateFile = () => {
             let ppFile = this.proPresenterDocService.makeFile(this.fileConfig, this.slides);
-            var blob = new Blob([ ppFile ], { type : 'text/xml' });
-            this.fileContents = this.$window.URL.createObjectURL( blob );
+            var blob = new Blob([ppFile], { type: 'text/xml' });
+            this.fileContents = this.$window.URL.createObjectURL(blob);
         };
     }
 

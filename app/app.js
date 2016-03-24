@@ -31,11 +31,15 @@ var TxtToPp;
     (function (Controllers) {
         'use strict';
         var MainController = (function () {
-            function MainController($window, proPresenterDocService) {
+            function MainController($scope, $window, proPresenterDocService, colorService) {
                 var _this = this;
+                this.$scope = $scope;
                 this.$window = $window;
                 this.proPresenterDocService = proPresenterDocService;
+                this.colorService = colorService;
                 this.fileContents = "#";
+                this.titleColorHex = "";
+                this.contentColorHex = "";
                 this.fileConfig = {
                     category: "Speaker Notes",
                     displayElementConfigs: {
@@ -105,8 +109,16 @@ var TxtToPp;
                     var blob = new Blob([ppFile], { type: 'text/xml' });
                     _this.fileContents = _this.$window.URL.createObjectURL(blob);
                 };
+                this.titleColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideTitle.color);
+                this.contentColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideContent.color);
+                this.$scope.$watch("vm.titleColorHex", function (val) {
+                    _this.fileConfig.displayElementConfigs.slideTitle.color = _this.colorService.hexToRgbColor(val);
+                });
+                this.$scope.$watch("vm.contentColorHex", function (val) {
+                    _this.fileConfig.displayElementConfigs.slideContent.color = _this.colorService.hexToRgbColor(val);
+                });
             }
-            MainController.$inject = ["$window", "proPresenterDocService"];
+            MainController.$inject = ["$scope", "$window", "proPresenterDocService", "colorService"];
             return MainController;
         }());
         Controllers.MainController = MainController;
@@ -201,10 +213,16 @@ var TxtToPp;
                 this.hexToRgbColor = function (hex) {
                     hex = hex.replace('#', '');
                     return {
-                        r: parseInt(hex.substring(0, 2), 16),
-                        g: parseInt(hex.substring(2, 4), 16),
-                        b: parseInt(hex.substring(4, 6), 16)
+                        r: (parseInt(hex.substring(0, 2), 16) || 0),
+                        g: (parseInt(hex.substring(2, 4), 16) || 0),
+                        b: (parseInt(hex.substring(4, 6), 16) || 0)
                     };
+                };
+                this.rgbToHexColor = function (rgbColor) {
+                    var r = ("0" + rgbColor.r.toString(16)).slice(-2);
+                    var g = ("0" + rgbColor.g.toString(16)).slice(-2);
+                    var b = ("0" + rgbColor.b.toString(16)).slice(-2);
+                    return "#" + r + g + b;
                 };
             }
             return ColorService;
