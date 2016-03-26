@@ -5,3 +5,4 @@
 /// <reference path="services/pro-presenter-doc.service.ts" />
 /// <reference path="services/rich-text-formatter.service.ts" />
 /// <reference path="services/color.service.ts" />
+/// <reference path="widgets/document-configuration.directive.ts" />

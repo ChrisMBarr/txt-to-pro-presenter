@@ -6,63 +6,17 @@ namespace TxtToPp.Controllers {
 
     export class MainController {
 
-        public static $inject = ["$scope", "$window", "proPresenterDocService", "colorService"];
+        public static $inject = ["$window", "proPresenterDocService"];
 
         constructor(
-            private $scope: angular.IScope,
             private $window: angular.IWindowService,
-            private proPresenterDocService: Services.ProPresenterDocService,
-            private colorService: Services.ColorService) {
-
-            //Initially convert these colors
-            this.titleColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideTitle.color);
-            this.contentColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideContent.color);
-
-            //Wathc these HEX values for changes and update them to RGB colors
-            this.$scope.$watch("vm.titleColorHex", (val: string) => {
-                this.fileConfig.displayElementConfigs.slideTitle.color = this.colorService.hexToRgbColor(val);
-            });
-
-            this.$scope.$watch("vm.contentColorHex", (val: string) => {
-                this.fileConfig.displayElementConfigs.slideContent.color = this.colorService.hexToRgbColor(val);
-            });
-
-
-        }
+            private proPresenterDocService: Services.ProPresenterDocService) {   }
 
         public fileContents = "#";
         public fileName = `file.${fileExt}`;
-        public titleColorHex = "";
-        public contentColorHex = "";
-
-        public fileConfig: Interfaces.IProPresenterDocConfig = {
-            category: "Speaker Notes",
-            displayElementConfigs: {
-                slideContent: {
-                    /* tslint:disable: object-literal-sort-keys */
-                    color: { r: 255, g: 255, b: 255 },
-                    /* tslint:enable: object-literal-sort-keys */
-                    fontName: "Futura-Medium",
-                    height: 319.1484,
-                    posX: 56.26352,
-                    posY: 145,
-                    width: 1182.772
-                },
-                slideTitle: {
-                    /* tslint:disable: object-literal-sort-keys */
-                    color: { r: 255, g: 255, b: 255 },
-                    /* tslint:enable: object-literal-sort-keys */
-                    fontName: "Futura-Medium",
-                    height: 118.6807,
-                    posX: 29.04599,
-                    posY: 2,
-                    width: 1221.908
-                }
-            },
-            height: 720,
-            title: "test",
-            width: 1280
-        };
+        
+        //This is filled in from the directive
+        public docConfig: Interfaces.IProPresenterDocConfig = undefined;
 
         //Start with an empty slide showing
         public slides: Interfaces.ISlide[] = [
@@ -110,10 +64,10 @@ namespace TxtToPp.Controllers {
         };
 
         public generateFile = () => {
-            let ppFile = this.proPresenterDocService.makeFile(this.fileConfig, this.slides);
-            var blob = new Blob([ppFile], { type: 'text/xml' });
+            const ppFile = this.proPresenterDocService.makeFile(this.docConfig, this.slides);
+            const blob = new Blob([ppFile], { type: 'text/xml' });
             this.fileContents = this.$window.URL.createObjectURL(blob);
-            this.fileName = `${this.fileConfig.title.replace(/\s/g, "-")}.${fileExt}`;
+            this.fileName = `${this.docConfig.title.replace(/\s/g, "-")}.${fileExt}`;
         };
     }
 

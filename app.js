@@ -1,5 +1,6 @@
 var TxtToPp;
 (function (TxtToPp) {
+    'use strict';
     TxtToPp.appModuleName = 'txtToProApp';
     var app = angular.module(TxtToPp.appModuleName, []);
     app.config(['$compileProvider', function ($compileProvider) {
@@ -32,40 +33,13 @@ var TxtToPp;
         'use strict';
         var fileExt = "pro5";
         var MainController = (function () {
-            function MainController($scope, $window, proPresenterDocService, colorService) {
+            function MainController($window, proPresenterDocService) {
                 var _this = this;
-                this.$scope = $scope;
                 this.$window = $window;
                 this.proPresenterDocService = proPresenterDocService;
-                this.colorService = colorService;
                 this.fileContents = "#";
                 this.fileName = "file." + fileExt;
-                this.titleColorHex = "";
-                this.contentColorHex = "";
-                this.fileConfig = {
-                    category: "Speaker Notes",
-                    displayElementConfigs: {
-                        slideContent: {
-                            color: { r: 255, g: 255, b: 255 },
-                            fontName: "Futura-Medium",
-                            height: 319.1484,
-                            posX: 56.26352,
-                            posY: 145,
-                            width: 1182.772
-                        },
-                        slideTitle: {
-                            color: { r: 255, g: 255, b: 255 },
-                            fontName: "Futura-Medium",
-                            height: 118.6807,
-                            posX: 29.04599,
-                            posY: 2,
-                            width: 1221.908
-                        }
-                    },
-                    height: 720,
-                    title: "test",
-                    width: 1280
-                };
+                this.docConfig = undefined;
                 this.slides = [
                     {
                         content: "Title Slide Content",
@@ -107,21 +81,13 @@ var TxtToPp;
                     _this.slides.splice(_this.slides.indexOf(slide), 1);
                 };
                 this.generateFile = function () {
-                    var ppFile = _this.proPresenterDocService.makeFile(_this.fileConfig, _this.slides);
+                    var ppFile = _this.proPresenterDocService.makeFile(_this.docConfig, _this.slides);
                     var blob = new Blob([ppFile], { type: 'text/xml' });
                     _this.fileContents = _this.$window.URL.createObjectURL(blob);
-                    _this.fileName = _this.fileConfig.title.replace(/\s/g, "-") + "." + fileExt;
+                    _this.fileName = _this.docConfig.title.replace(/\s/g, "-") + "." + fileExt;
                 };
-                this.titleColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideTitle.color);
-                this.contentColorHex = this.colorService.rgbToHexColor(this.fileConfig.displayElementConfigs.slideContent.color);
-                this.$scope.$watch("vm.titleColorHex", function (val) {
-                    _this.fileConfig.displayElementConfigs.slideTitle.color = _this.colorService.hexToRgbColor(val);
-                });
-                this.$scope.$watch("vm.contentColorHex", function (val) {
-                    _this.fileConfig.displayElementConfigs.slideContent.color = _this.colorService.hexToRgbColor(val);
-                });
             }
-            MainController.$inject = ["$scope", "$window", "proPresenterDocService", "colorService"];
+            MainController.$inject = ["$window", "proPresenterDocService"];
             return MainController;
         }());
         Controllers.MainController = MainController;
@@ -235,4 +201,65 @@ var TxtToPp;
             .module(TxtToPp.appModuleName)
             .service("colorService", ColorService);
     })(Services = TxtToPp.Services || (TxtToPp.Services = {}));
+})(TxtToPp || (TxtToPp = {}));
+var TxtToPp;
+(function (TxtToPp) {
+    var Widgets;
+    (function (Widgets) {
+        'use strict';
+        function documentConfigurationDirective(colorService) {
+            function linkFn($scope) {
+                $scope.titleColorHex = "";
+                $scope.contentColorHex = "";
+                $scope.config = {
+                    category: "Speaker Notes",
+                    displayElementConfigs: {
+                        slideContent: {
+                            color: { r: 255, g: 255, b: 255 },
+                            fontName: "Futura-Medium",
+                            height: 319.1484,
+                            posX: 56.26352,
+                            posY: 145,
+                            width: 1182.772
+                        },
+                        slideTitle: {
+                            color: { r: 255, g: 255, b: 255 },
+                            fontName: "Futura-Medium",
+                            height: 118.6807,
+                            posX: 29.04599,
+                            posY: 2,
+                            width: 1221.908
+                        }
+                    },
+                    height: 720,
+                    title: "test",
+                    width: 1280
+                };
+                $scope.titleColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideTitle.color);
+                $scope.contentColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideContent.color);
+                $scope.$watch("titleColorHex", function (val) {
+                    if (val) {
+                        $scope.config.displayElementConfigs.slideTitle.color = colorService.hexToRgbColor(val);
+                    }
+                });
+                $scope.$watch("contentColorHex", function (val) {
+                    if (val) {
+                        $scope.config.displayElementConfigs.slideContent.color = colorService.hexToRgbColor(val);
+                    }
+                });
+            }
+            return {
+                link: linkFn,
+                restrict: "E",
+                scope: {
+                    config: "="
+                },
+                templateUrl: "app/widgets/document-configuration.tmpl.html"
+            };
+        }
+        documentConfigurationDirective.$inject = ["colorService"];
+        angular
+            .module(TxtToPp.appModuleName)
+            .directive("angDocumentConfiguration", documentConfigurationDirective);
+    })(Widgets = TxtToPp.Widgets || (TxtToPp.Widgets = {}));
 })(TxtToPp || (TxtToPp = {}));
