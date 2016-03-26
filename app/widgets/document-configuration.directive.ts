@@ -4,6 +4,7 @@ namespace TxtToPp.Widgets {
 
     interface IDocumentConfigScope extends angular.IScope {
         config: TxtToPp.Interfaces.IProPresenterDocConfig;
+        bgColorHex: string;
         titleColorHex: string;
         contentColorHex: string;
     }
@@ -14,6 +15,7 @@ namespace TxtToPp.Widgets {
         const db = $window.localStorage;
 
         function linkFn($scope: IDocumentConfigScope): void {
+            $scope.bgColorHex = "";
             $scope.titleColorHex = "";
             $scope.contentColorHex = "";
 
@@ -42,6 +44,9 @@ namespace TxtToPp.Widgets {
                 //Our default settings if nothing was saved
                 $scope.config = {
                     category: "Speaker Notes",
+                    /* tslint:disable: object-literal-sort-keys */
+                    bgColor: { r: 8, g: 58, b: 119 },
+                    /* tslint:enable: object-literal-sort-keys */
                     displayElementConfigs: {
                         slideContent: {
                             /* tslint:disable: object-literal-sort-keys */
@@ -71,10 +76,17 @@ namespace TxtToPp.Widgets {
             }
             
              //Initially convert these colors
+            $scope.bgColorHex = colorService.rgbToHexColor($scope.config.bgColor);
             $scope.titleColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideTitle.color);
             $scope.contentColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideContent.color);
 
             //Watch these HEX values for changes and update them to RGB colors
+            $scope.$watch("bgColorHex", (val: string) => {
+                if (val) {
+                    $scope.config.bgColor = colorService.hexToRgbColor(val);
+                }
+            });
+            
             $scope.$watch("titleColorHex", (val: string) => {
                 if (val) {
                     $scope.config.displayElementConfigs.slideTitle.color = colorService.hexToRgbColor(val);

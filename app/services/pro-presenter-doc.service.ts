@@ -6,9 +6,9 @@ namespace TxtToPp.Services {
 
     export class ProPresenterDocService {
 
-        public static $inject = ["richTextFormatterService"];
+        public static $inject = ["richTextFormatterService", "colorService"];
 
-        constructor(private rtfSvc: Services.RichTextFormatterService) { }
+        constructor(private rtfSvc: Services.RichTextFormatterService, private colorSvc: Services.ColorService) { }
 
         public makeFile = (config: Interfaces.IProPresenterDocConfig, slides: Interfaces.ISlide[]): string => {
             /* tslint:disable: max-line-length */
@@ -48,8 +48,8 @@ namespace TxtToPp.Services {
             /* tslint:disable: max-line-length */
             //const bgImgPath = "file://localhost/Users/chrisbarr/Documents/Projects/Calvary/new%20logos/Pixel%20Reveal/Sermon%20Background%20(720p).jpg";
             //const cueName = `Sermon Background (720p).jpg`;
-            const slideBgColorRgba = `0.0313725508749485 0.2274509817361832 0.4666666686534882 1`;
-            let displaySlide = `<RVDisplaySlide backgroundColor="${slideBgColorRgba}" enabled="1" highlightColor="0 0 0 0" hotKey="" label="" notes="" slideType="1" sort_index="2" UUID="${this.generateUuid()}" drawingBackgroundColor="1" chordChartPath="" serialization-array-index="0">
+            const bgColor = this.colorSvc.rgbToFloatRgbaColor(config.bgColor);
+            let displaySlide = `<RVDisplaySlide backgroundColor="${bgColor}" enabled="1" highlightColor="0 0 0 0" hotKey="" label="" notes="" slideType="1" sort_index="2" UUID="${this.generateUuid()}" drawingBackgroundColor="1" chordChartPath="" serialization-array-index="0">
                     <cues containerClass="NSMutableArray"></cues>
                     <displayElements containerClass="NSMutableArray">`;
 
@@ -59,12 +59,12 @@ namespace TxtToPp.Services {
             if (slide.content) {
                 displaySlide += this.makeTextElement(config.displayElementConfigs.slideContent, slide.content);
             }
-            
+
             displaySlide += `</displayElements>
                     <_-RVProTransitionObject-_transitionObject transitionType="-1" transitionDuration="1" motionEnabled="0" motionDuration="20" motionSpeed="100"></_-RVProTransitionObject-_transitionObject>
                 </RVDisplaySlide>
                 `;
-            
+
             return displaySlide;
             /* tslint:enable: max-line-length */
         };
@@ -72,7 +72,7 @@ namespace TxtToPp.Services {
         private makeTextElement = (displayElementConfig: Interfaces.IDisplayElementConfig, content: string) => {
             //Base64 encode the RTF string
             const rtfData = btoa(this.rtfSvc.makeRtfData(displayElementConfig, content));
-            
+
             /* tslint:disable: max-line-length */
             return `<RVTextElement displayDelay="0" displayName="" locked="0" persistent="0" typeID="0" fromTemplate="0" bezelRadius="0" drawingFill="0" drawingShadow="0" drawingStroke="0" fillColor="0 0 0 0" rotation="0" source="" adjustsHeightToFit="1" verticalAlignment="1" RTFData="${rtfData}" revealType="0" serialization-array-index="0">
                 <_-RVRect3D-_position x="${displayElementConfig.posX}" y="${displayElementConfig.posY}" z="0" width="${displayElementConfig.width}" height="${displayElementConfig.height}" />

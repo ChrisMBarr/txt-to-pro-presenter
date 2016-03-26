@@ -103,9 +103,10 @@ var TxtToPp;
         'use strict';
         var creatorCode = "1349676880";
         var ProPresenterDocService = (function () {
-            function ProPresenterDocService(rtfSvc) {
+            function ProPresenterDocService(rtfSvc, colorSvc) {
                 var _this = this;
                 this.rtfSvc = rtfSvc;
+                this.colorSvc = colorSvc;
                 this.makeFile = function (config, slides) {
                     var today = new Date();
                     var dateStr = today.toISOString().split(".")[0];
@@ -122,8 +123,8 @@ var TxtToPp;
                     return slideGroup;
                 };
                 this.createSlide = function (config, slide, groupId) {
-                    var slideBgColorRgba = "0.0313725508749485 0.2274509817361832 0.4666666686534882 1";
-                    var displaySlide = "<RVDisplaySlide backgroundColor=\"" + slideBgColorRgba + "\" enabled=\"1\" highlightColor=\"0 0 0 0\" hotKey=\"\" label=\"\" notes=\"\" slideType=\"1\" sort_index=\"2\" UUID=\"" + _this.generateUuid() + "\" drawingBackgroundColor=\"1\" chordChartPath=\"\" serialization-array-index=\"0\">\n                    <cues containerClass=\"NSMutableArray\"></cues>\n                    <displayElements containerClass=\"NSMutableArray\">";
+                    var bgColor = _this.colorSvc.rgbToFloatRgbaColor(config.bgColor);
+                    var displaySlide = "<RVDisplaySlide backgroundColor=\"" + bgColor + "\" enabled=\"1\" highlightColor=\"0 0 0 0\" hotKey=\"\" label=\"\" notes=\"\" slideType=\"1\" sort_index=\"2\" UUID=\"" + _this.generateUuid() + "\" drawingBackgroundColor=\"1\" chordChartPath=\"\" serialization-array-index=\"0\">\n                    <cues containerClass=\"NSMutableArray\"></cues>\n                    <displayElements containerClass=\"NSMutableArray\">";
                     if (slide.title) {
                         displaySlide += _this.makeTextElement(config.displayElementConfigs.slideTitle, slide.title);
                     }
@@ -144,7 +145,7 @@ var TxtToPp;
                     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
                 };
             }
-            ProPresenterDocService.$inject = ["richTextFormatterService"];
+            ProPresenterDocService.$inject = ["richTextFormatterService", "colorService"];
             return ProPresenterDocService;
         }());
         Services.ProPresenterDocService = ProPresenterDocService;
@@ -179,6 +180,7 @@ var TxtToPp;
         'use strict';
         var ColorService = (function () {
             function ColorService() {
+                var _this = this;
                 this.hexToRgbColor = function (hex) {
                     hex = hex.replace('#', '');
                     return {
@@ -192,6 +194,25 @@ var TxtToPp;
                     var g = ("0" + rgbColor.g.toString(16)).slice(-2);
                     var b = ("0" + rgbColor.b.toString(16)).slice(-2);
                     return "#" + r + g + b;
+                };
+                this.rgbToFloatRgbaColor = function (rgbColor) {
+                    return _this.byteToFloat(rgbColor.r) + " " + _this.byteToFloat(rgbColor.g) + " " + _this.byteToFloat(rgbColor.b) + " 1";
+                };
+                this.floatRgbaToRgbColor = function (rgbaFloatColor) {
+                    var colorParts = rgbaFloatColor.split(" ");
+                    return {
+                        r: _this.floatToByte(parseFloat(colorParts[0])),
+                        g: _this.floatToByte(parseFloat(colorParts[1])),
+                        b: _this.floatToByte(parseFloat(colorParts[2]))
+                    };
+                };
+                this.floatToByte = function (f) {
+                    var f2 = Math.max(0, Math.min(1, f));
+                    return Math.floor(f2 * 255);
+                };
+                this.byteToFloat = function (b) {
+                    var b2 = Math.max(0, Math.min(255, b));
+                    return b2 === 255 ? 1 : b2 / 255;
                 };
             }
             return ColorService;
@@ -211,6 +232,7 @@ var TxtToPp;
             var storageKey = "documentConfig";
             var db = $window.localStorage;
             function linkFn($scope) {
+                $scope.bgColorHex = "";
                 $scope.titleColorHex = "";
                 $scope.contentColorHex = "";
                 var savedConfig = undefined;
@@ -231,6 +253,7 @@ var TxtToPp;
                 else {
                     $scope.config = {
                         category: "Speaker Notes",
+                        bgColor: { r: 8, g: 58, b: 119 },
                         displayElementConfigs: {
                             slideContent: {
                                 color: { r: 255, g: 255, b: 255 },
@@ -254,8 +277,14 @@ var TxtToPp;
                         width: 1280
                     };
                 }
+                $scope.bgColorHex = colorService.rgbToHexColor($scope.config.bgColor);
                 $scope.titleColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideTitle.color);
                 $scope.contentColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideContent.color);
+                $scope.$watch("bgColorHex", function (val) {
+                    if (val) {
+                        $scope.config.bgColor = colorService.hexToRgbColor(val);
+                    }
+                });
                 $scope.$watch("titleColorHex", function (val) {
                     if (val) {
                         $scope.config.displayElementConfigs.slideTitle.color = colorService.hexToRgbColor(val);

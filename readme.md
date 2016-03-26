@@ -4,6 +4,7 @@
 
 ###TODO Items
  
+ * Move color pciker UI to a directive
  * Figure out how to do font sizes in RTF
  * Figure out background images
  * Figure out how to detect & color bullet points in the slide content differently than the text
