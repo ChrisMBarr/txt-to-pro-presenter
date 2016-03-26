@@ -5,6 +5,7 @@
 ###TODO Items
  
  * Figure out how to do font sizes in RTF
+ * Figure out background images
  * Figure out how to detect & color bullet points in the slide content differently than the text
  * Import settings from existing `*.pro5` file
  * Import slides from plain text file parsing

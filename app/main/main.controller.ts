@@ -1,4 +1,4 @@
-/// <reference path="app-typings.d.ts" />
+/// <reference path="../app-typings.d.ts" />
 namespace TxtToPp.Controllers {
     'use strict';
     
