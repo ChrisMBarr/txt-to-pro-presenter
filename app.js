@@ -207,34 +207,53 @@ var TxtToPp;
     var Widgets;
     (function (Widgets) {
         'use strict';
-        function documentConfigurationDirective(colorService) {
+        function documentConfigurationDirective($window, colorService) {
+            var storageKey = "documentConfig";
+            var db = $window.localStorage;
             function linkFn($scope) {
                 $scope.titleColorHex = "";
                 $scope.contentColorHex = "";
-                $scope.config = {
-                    category: "Speaker Notes",
-                    displayElementConfigs: {
-                        slideContent: {
-                            color: { r: 255, g: 255, b: 255 },
-                            fontName: "Futura-Medium",
-                            height: 319.1484,
-                            posX: 56.26352,
-                            posY: 145,
-                            width: 1182.772
-                        },
-                        slideTitle: {
-                            color: { r: 255, g: 255, b: 255 },
-                            fontName: "Futura-Medium",
-                            height: 118.6807,
-                            posX: 29.04599,
-                            posY: 2,
-                            width: 1221.908
+                var savedConfig = undefined;
+                if (db) {
+                    var savedFileConfigStr = db.getItem(storageKey);
+                    if (savedFileConfigStr) {
+                        savedConfig = JSON.parse(savedFileConfigStr);
+                    }
+                    $scope.$watch("config", function (val) {
+                        if (val) {
+                            db.setItem(storageKey, JSON.stringify(val));
                         }
-                    },
-                    height: 720,
-                    title: "test",
-                    width: 1280
-                };
+                    }, true);
+                }
+                if (savedConfig) {
+                    $scope.config = savedConfig;
+                }
+                else {
+                    $scope.config = {
+                        category: "Speaker Notes",
+                        displayElementConfigs: {
+                            slideContent: {
+                                color: { r: 255, g: 255, b: 255 },
+                                fontName: "Futura-Medium",
+                                height: 319.1484,
+                                posX: 56.26352,
+                                posY: 145,
+                                width: 1182.772
+                            },
+                            slideTitle: {
+                                color: { r: 255, g: 255, b: 255 },
+                                fontName: "Futura-Medium",
+                                height: 118.6807,
+                                posX: 29.04599,
+                                posY: 2,
+                                width: 1221.908
+                            }
+                        },
+                        height: 720,
+                        title: "test",
+                        width: 1280
+                    };
+                }
                 $scope.titleColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideTitle.color);
                 $scope.contentColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideContent.color);
                 $scope.$watch("titleColorHex", function (val) {
@@ -257,7 +276,7 @@ var TxtToPp;
                 templateUrl: "app/widgets/document-configuration.tmpl.html"
             };
         }
-        documentConfigurationDirective.$inject = ["colorService"];
+        documentConfigurationDirective.$inject = ["$window", "colorService"];
         angular
             .module(TxtToPp.appModuleName)
             .directive("angDocumentConfiguration", documentConfigurationDirective);
