@@ -1,5 +1,7 @@
 /// <reference path="app-typings.d.ts" />
-namespace TxtToPp{
+namespace TxtToPp {
+    'use strict';
+    
     export const appModuleName = 'txtToProApp';
     const app = angular.module(appModuleName, []);
     app.config(['$compileProvider', ($compileProvider: angular.ICompileProvider) => {

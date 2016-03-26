@@ -4,11 +4,12 @@
 
 ###TODO Items
  
+ * Move color pciker UI to a directive
  * Figure out how to do font sizes in RTF
+ * Figure out background images
  * Figure out how to detect & color bullet points in the slide content differently than the text
  * Import settings from existing `*.pro5` file
  * Import slides from plain text file parsing
- * Save config settings to browser LocalStorage
  * Impliment slide types (title slide, quote slide, verse slide)
  * Bible verse retreival via bible.org API
  * Drag-n-drop slide re-ordering

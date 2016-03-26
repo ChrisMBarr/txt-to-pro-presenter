@@ -29,6 +29,7 @@ namespace TxtToPp.Interfaces {
         width: number;
         title: string;
         category: string;
+        bgColor: IRgbColor;
         displayElementConfigs: {
             slideTitle: IDisplayElementConfig;
             slideContent: IDisplayElementConfig;

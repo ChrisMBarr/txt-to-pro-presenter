@@ -9,7 +9,7 @@ gulp.task('build', function() {
     .pipe(ts({
         noImplicitAny: true,
         suppressImplicitAnyIndexErrors: true,
-        outFile:"app.js",
+        outFile:"../app.js",
         removeComments: true,
         sortOutput: true
       }));
