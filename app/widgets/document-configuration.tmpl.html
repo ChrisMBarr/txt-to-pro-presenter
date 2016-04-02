@@ -14,9 +14,9 @@
         <div class="form-group">
             <label for="config-dimensions-w">Dimensions</label>
             <div class="input-group">
-                <input type="text" id="config-dimensions-w" placeholder="width" class="form-control" ng-model="config.width">
+                <input type="number" id="config-dimensions-w" min="1" placeholder="width" class="form-control text-right" ng-model="config.width">
                 <span class="input-group-addon">&times;</span>
-                <input type="text" id="config-dimensions-h" placeholder="height" class="form-control" ng-model="config.height">
+                <input type="number" id="config-dimensions-h" min="1" placeholder="height" class="form-control" ng-model="config.height">
             </div>
         </div>
     </div>
@@ -31,17 +31,17 @@
         <div class="form-group">
             <label for="config-title-size-w">Slide Title Size</label>
             <div class="input-group">
-                <input type="text" id="config-title-size-w" placeholder="width" class="form-control" ng-model="config.displayElementConfigs.slideTitle.width">
+                <input type="number" id="config-title-size-w" min="1" placeholder="width" class="form-control text-right" ng-model="config.displayElementConfigs.slideTitle.width">
                 <span class="input-group-addon">&times;</span>
-                <input type="text" id="config-title-size-h" placeholder="height" class="form-control" ng-model="config.displayElementConfigs.slideTitle.height">
+                <input type="number" id="config-title-size-h" min="1" placeholder="height" class="form-control" ng-model="config.displayElementConfigs.slideTitle.height">
             </div>
         </div>
         <div class="form-group">
             <label for="config-title-pos-x">Slide Title Position</label>
             <div class="input-group">
-                <input type="text" id="config-title-pos-x" placeholder="X" class="form-control" ng-model="config.displayElementConfigs.slideTitle.posX">
+                <input type="number" id="config-title-pos-x" placeholder="X" class="form-control text-right" ng-model="config.displayElementConfigs.slideTitle.posX">
                 <span class="input-group-addon">&times;</span>
-                <input type="text" id="config-title-pos-y" placeholder="Y" class="form-control" ng-model="config.displayElementConfigs.slideTitle.posY">
+                <input type="number" id="config-title-pos-y" placeholder="Y" class="form-control" ng-model="config.displayElementConfigs.slideTitle.posY">
             </div>
         </div>
     </div>
@@ -56,17 +56,17 @@
         <div class="form-group">
             <label for="config-content-size-w">Slide Content Size</label>
             <div class="input-group">
-                <input type="text" id="config-content-size-w" placeholder="width" class="form-control" ng-model="config.displayElementConfigs.slideContent.width">
+                <input type="number" id="config-content-size-w" min="1" placeholder="width" class="form-control text-right" ng-model="config.displayElementConfigs.slideContent.width">
                 <span class="input-group-addon">&times;</span>
-                <input type="text" id="config-content-size-h" placeholder="height" class="form-control" ng-model="config.displayElementConfigs.slideContent.height">
+                <input type="number" id="config-content-size-h" min="1" placeholder="height" class="form-control" ng-model="config.displayElementConfigs.slideContent.height">
             </div>
         </div>
         <div class="form-group">
             <label for="config-content-pos-x">Slide Content Position</label>
             <div class="input-group">
-                <input type="text" id="config-content-pos-x" placeholder="X" class="form-control" ng-model="config.displayElementConfigs.slideContent.posX">
+                <input type="number" id="config-content-pos-x" placeholder="X" class="form-control text-right" ng-model="config.displayElementConfigs.slideContent.posX">
                 <span class="input-group-addon">&times;</span>
-                <input type="text" id="config-content-pos-y" placeholder="Y" class="form-control" ng-model="config.displayElementConfigs.slideContent.posY">
+                <input type="number" id="config-content-pos-y" placeholder="Y" class="form-control" ng-model="config.displayElementConfigs.slideContent.posY">
             </div>
         </div>
     </div>
