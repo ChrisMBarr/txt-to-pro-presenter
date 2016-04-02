@@ -10,13 +10,16 @@ namespace TxtToPp.Controllers {
         constructor(
             private $window: angular.IWindowService,
             private proPresenterDocService: Services.ProPresenterDocService) {   }
+            
+        public displayConfig = true;
 
         public fileContents = "#";
+        
         public fileName = `file.${fileExt}`;
         
         //This is filled in from the directive
         public docConfig: Interfaces.IProPresenterDocConfig = undefined;
-
+        
         //Start with an empty slide showing
         public slides: Interfaces.ISlide[] = [
             {
@@ -49,6 +52,10 @@ namespace TxtToPp.Controllers {
                 text: "Bible Verse"
             }
         ];
+        
+        public toggleConfig = () => {
+            this.displayConfig = ! this.displayConfig;
+        };
 
         public addSlide = () => {
             this.slides.push({

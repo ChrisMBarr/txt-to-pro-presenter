@@ -1,10 +1,18 @@
 <section ng-controller="mainController as vm">
     
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">
-            <h3 class="panel-title">File Configuration</h3>
+            <a role="button" class="pull-right" ng-click="vm.toggleConfig()">
+                <span ng-if="vm.displayConfig"><span class="glyphicon glyphicon-collapse-down"></span> Hide</span>
+                <span ng-if="!vm.displayConfig"><span class="glyphicon glyphicon-expand"></span> Show</span>
+            </a>
+            <h3 class="panel-title">
+                <a role="button" ng-click="vm.toggleConfig()">
+                    File Configuration
+                </a>
+            </h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" ng-show="vm.displayConfig">
             <ang-document-configuration config="vm.docConfig"></ang-document-configuration>
         </div>
     </div>
@@ -13,21 +21,17 @@
         <div class="panel-heading">
             <h3 class="panel-title">Slides</h3>
         </div>
-        <div class="panel-body">
-            <div id="slides-container">
-                <div class="slide" ng-repeat="slide in vm.slides">
-                    <!--<select class="form-control" ng-model="slide.slideType" ng-options="opt.key as opt.text for opt in ::vm.slideTypes"></select>-->
-                    <input type="text" class="form-control" placeholder="title" ng-model="slide.title" />
-                    <textarea class="form-control" placeholder="content" ng-model="slide.content"></textarea>
-                    <button type="button" class="btn btn-danger btn-sm" ng-if="$index > 0" ng-click="vm.removeSlide(slide)">
-                        Remove
-                    </button>
-                </div>
-                
-                <button type="button" class="slide-add-btn" ng-click="vm.addSlide()">
-                    +
+        <div class="panel-body" id="slides-container">
+            <div class="slide" ng-repeat="slide in vm.slides">
+                <!--<select class="form-control" ng-model="slide.slideType" ng-options="opt.key as opt.text for opt in ::vm.slideTypes"></select>-->
+                <input type="text" class="form-control" placeholder="title" ng-model="slide.title" />
+                <textarea class="form-control" placeholder="content" ng-model="slide.content"></textarea>
+                <button type="button" class="btn btn-danger btn-sm" ng-if="$index > 0" ng-click="vm.removeSlide(slide)">
+                    Remove
                 </button>
             </div>
+            
+            <button type="button" class="slide-add-btn" ng-click="vm.addSlide()">+</button>
         </div>
     </div>
     
