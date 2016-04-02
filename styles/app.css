@@ -1,5 +1,14 @@
 *,*:before, *:after{box-sizing: border-box;}
 
+body{
+    padding-top: 15px;
+}
+
+a[ng-click]{
+    /*make these look clickable*/
+    cursor: pointer;
+}
+
 input,
 textarea{}
 

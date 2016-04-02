@@ -1,6 +1,5 @@
 /// <reference path="../app-typings.d.ts" />
 namespace TxtToPp.Services {
-    'use strict';
 
     export class ColorService {
 

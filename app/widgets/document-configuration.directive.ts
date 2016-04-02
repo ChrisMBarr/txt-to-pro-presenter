@@ -1,12 +1,8 @@
 /// <reference path="../app-typings.d.ts" />
 namespace TxtToPp.Widgets {
-    'use strict';
 
     interface IDocumentConfigScope extends angular.IScope {
         config: TxtToPp.Interfaces.IProPresenterDocConfig;
-        bgColorHex: string;
-        titleColorHex: string;
-        contentColorHex: string;
     }
 
     function documentConfigurationDirective($window: angular.IWindowService, colorService: Services.ColorService): angular.IDirective {
@@ -15,10 +11,6 @@ namespace TxtToPp.Widgets {
         const db = $window.localStorage;
 
         function linkFn($scope: IDocumentConfigScope): void {
-            $scope.bgColorHex = "";
-            $scope.titleColorHex = "";
-            $scope.contentColorHex = "";
-
             //If the browser support localStorage, save any changes to the configuration there
             let savedConfig: TxtToPp.Interfaces.IProPresenterDocConfig = undefined;
             if (db) {
@@ -74,30 +66,6 @@ namespace TxtToPp.Widgets {
                     width: 1280
                 };
             }
-            
-             //Initially convert these colors
-            $scope.bgColorHex = colorService.rgbToHexColor($scope.config.bgColor);
-            $scope.titleColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideTitle.color);
-            $scope.contentColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideContent.color);
-
-            //Watch these HEX values for changes and update them to RGB colors
-            $scope.$watch("bgColorHex", (val: string) => {
-                if (val) {
-                    $scope.config.bgColor = colorService.hexToRgbColor(val);
-                }
-            });
-            
-            $scope.$watch("titleColorHex", (val: string) => {
-                if (val) {
-                    $scope.config.displayElementConfigs.slideTitle.color = colorService.hexToRgbColor(val);
-                }
-            });
-
-            $scope.$watch("contentColorHex", (val: string) => {
-                if (val) {
-                    $scope.config.displayElementConfigs.slideContent.color = colorService.hexToRgbColor(val);
-                }
-            });
         }
 
         return {

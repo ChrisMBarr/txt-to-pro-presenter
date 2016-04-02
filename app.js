@@ -1,6 +1,5 @@
 var TxtToPp;
 (function (TxtToPp) {
-    'use strict';
     TxtToPp.appModuleName = 'txtToProApp';
     var app = angular.module(TxtToPp.appModuleName, []);
     app.config(['$compileProvider', function ($compileProvider) {
@@ -11,7 +10,6 @@ var TxtToPp;
 (function (TxtToPp) {
     var Interfaces;
     (function (Interfaces) {
-        'use strict';
         ;
         (function (SlideTypeEnum) {
             SlideTypeEnum[SlideTypeEnum["Title"] = 0] = "Title";
@@ -30,13 +28,13 @@ var TxtToPp;
 (function (TxtToPp) {
     var Controllers;
     (function (Controllers) {
-        'use strict';
         var fileExt = "pro5";
         var MainController = (function () {
             function MainController($window, proPresenterDocService) {
                 var _this = this;
                 this.$window = $window;
                 this.proPresenterDocService = proPresenterDocService;
+                this.displayConfig = true;
                 this.fileContents = "#";
                 this.fileName = "file." + fileExt;
                 this.docConfig = undefined;
@@ -70,6 +68,9 @@ var TxtToPp;
                         text: "Bible Verse"
                     }
                 ];
+                this.toggleConfig = function () {
+                    _this.displayConfig = !_this.displayConfig;
+                };
                 this.addSlide = function () {
                     _this.slides.push({
                         content: "",
@@ -100,7 +101,6 @@ var TxtToPp;
 (function (TxtToPp) {
     var Services;
     (function (Services) {
-        'use strict';
         var creatorCode = "1349676880";
         var ProPresenterDocService = (function () {
             function ProPresenterDocService(rtfSvc, colorSvc) {
@@ -158,7 +158,6 @@ var TxtToPp;
 (function (TxtToPp) {
     var Services;
     (function (Services) {
-        'use strict';
         var RichTextFormatterService = (function () {
             function RichTextFormatterService() {
                 this.makeRtfData = function (displayElementConfig, content) {
@@ -177,7 +176,6 @@ var TxtToPp;
 (function (TxtToPp) {
     var Services;
     (function (Services) {
-        'use strict';
         var ColorService = (function () {
             function ColorService() {
                 var _this = this;
@@ -227,14 +225,10 @@ var TxtToPp;
 (function (TxtToPp) {
     var Widgets;
     (function (Widgets) {
-        'use strict';
         function documentConfigurationDirective($window, colorService) {
             var storageKey = "documentConfig";
             var db = $window.localStorage;
             function linkFn($scope) {
-                $scope.bgColorHex = "";
-                $scope.titleColorHex = "";
-                $scope.contentColorHex = "";
                 var savedConfig = undefined;
                 if (db) {
                     var savedFileConfigStr = db.getItem(storageKey);
@@ -277,24 +271,6 @@ var TxtToPp;
                         width: 1280
                     };
                 }
-                $scope.bgColorHex = colorService.rgbToHexColor($scope.config.bgColor);
-                $scope.titleColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideTitle.color);
-                $scope.contentColorHex = colorService.rgbToHexColor($scope.config.displayElementConfigs.slideContent.color);
-                $scope.$watch("bgColorHex", function (val) {
-                    if (val) {
-                        $scope.config.bgColor = colorService.hexToRgbColor(val);
-                    }
-                });
-                $scope.$watch("titleColorHex", function (val) {
-                    if (val) {
-                        $scope.config.displayElementConfigs.slideTitle.color = colorService.hexToRgbColor(val);
-                    }
-                });
-                $scope.$watch("contentColorHex", function (val) {
-                    if (val) {
-                        $scope.config.displayElementConfigs.slideContent.color = colorService.hexToRgbColor(val);
-                    }
-                });
             }
             return {
                 link: linkFn,
@@ -309,5 +285,44 @@ var TxtToPp;
         angular
             .module(TxtToPp.appModuleName)
             .directive("angDocumentConfiguration", documentConfigurationDirective);
+    })(Widgets = TxtToPp.Widgets || (TxtToPp.Widgets = {}));
+})(TxtToPp || (TxtToPp = {}));
+var TxtToPp;
+(function (TxtToPp) {
+    var Widgets;
+    (function (Widgets) {
+        function colorPickerDirective($window, colorService) {
+            function supportsColorInput() {
+                var i = $window.document.createElement("input");
+                i.setAttribute("type", "color");
+                return i.type !== "text";
+            }
+            function linkFn($scope) {
+                $scope.id = "color-" + Math.random().toString(36).substr(2, 5);
+                $scope.hasColorSupport = supportsColorInput();
+                var colorWatcher = $scope.$watch("color", function () {
+                    $scope.hexColor = colorService.rgbToHexColor($scope.color);
+                    colorWatcher();
+                });
+                $scope.$watch("hexColor", function (val) {
+                    if (val) {
+                        $scope.color = colorService.hexToRgbColor(val);
+                    }
+                });
+            }
+            return {
+                link: linkFn,
+                restrict: "E",
+                scope: {
+                    color: "=",
+                    title: "@"
+                },
+                template: "<div class=\"form-group\">\n    <label ng-attr-for=\"{{::id}}\">{{title}}</label>\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-3\" ng-if=\"::hasColorSupport\">\n            <input type=\"color\" class=\"form-control\" ng-model=\"hexColor\" ng-attr-id=\"{{::id}}\">\n        </div>\n        <div ng-class=\"hasColorSupport ? 'col-xs-6 col-sm-9' : 'col-xs-12'\">\n            <input type=\"text\" class=\"form-control\" ng-model=\"hexColor\" ng-attr-id=\"{{::(hasColorSupport ? '' : id)}}\">\n        </div>    \n    </div>\n</div>"
+            };
+        }
+        colorPickerDirective.$inject = ["$window", "colorService"];
+        angular
+            .module(TxtToPp.appModuleName)
+            .directive("angColorPicker", colorPickerDirective);
     })(Widgets = TxtToPp.Widgets || (TxtToPp.Widgets = {}));
 })(TxtToPp || (TxtToPp = {}));

@@ -6,3 +6,4 @@
 /// <reference path="services/rich-text-formatter.service.ts" />
 /// <reference path="services/color.service.ts" />
 /// <reference path="widgets/document-configuration.directive.ts" />
+/// <reference path="widgets/color-picker.directive.ts" />
