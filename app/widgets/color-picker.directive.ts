@@ -6,13 +6,22 @@ namespace TxtToPp.Widgets {
         title: string;
         hexColor: string;
         id: string;
+        hasColorSupport: boolean;
     }
-
-    function colorPickerDirective(colorService: Services.ColorService): angular.IDirective {
-
+    
+    function colorPickerDirective($window: angular.IWindowService, colorService: Services.ColorService): angular.IDirective {
+        
+        function supportsColorInput(): boolean {
+            const i = $window.document.createElement("input");
+            i.setAttribute("type", "color");
+            return i.type !== "text";
+        }
+        
         function linkFn($scope: IColorPickerScope): void {
             //Generate a random ID
             $scope.id = `color-${Math.random().toString(36).substr(2, 5)}`;
+            
+            $scope.hasColorSupport = supportsColorInput();
             
             const colorWatcher = $scope.$watch("color", () => {
                 //Initially convert the color once it has it's initial value set
@@ -39,18 +48,18 @@ namespace TxtToPp.Widgets {
             template: `<div class="form-group">
     <label ng-attr-for="{{::id}}">{{title}}</label>
     <div class="row">
-        <div class="col-xs-6 col-sm-3">
-            <input type="color" ng-attr-id="{{::id}}" class="form-control" ng-model="hexColor">
+        <div class="col-xs-6 col-sm-3" ng-if="::hasColorSupport">
+            <input type="color" class="form-control" ng-model="hexColor" ng-attr-id="{{::id}}">
         </div>
-        <div class="col-xs-6 col-sm-9">
-            <input type="text" class="form-control" ng-model="hexColor">
+        <div ng-class="hasColorSupport ? 'col-xs-6 col-sm-9' : 'col-xs-12'">
+            <input type="text" class="form-control" ng-model="hexColor" ng-attr-id="{{::(hasColorSupport ? '' : id)}}">
         </div>    
     </div>
 </div>`
         };
     }
 
-    colorPickerDirective.$inject = ["colorService"];
+    colorPickerDirective.$inject = ["$window", "colorService"];
 
     angular
         .module(appModuleName)
