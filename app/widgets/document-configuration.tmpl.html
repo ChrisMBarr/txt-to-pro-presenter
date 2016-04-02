@@ -5,6 +5,8 @@
             <input type="text" id="config-category" class="form-control" ng-model="config.category">
         </div>
         
+        <ang-color-picker title="Background Color" color="config.bgColor"></ang-color-picker>
+        
         <div class="form-group">
             <label for="config-title">Title</label>
             <input type="text" id="config-title" class="form-control" ng-model="config.title">
@@ -23,17 +25,9 @@
             <label for="config-title-font">Slide Title Font</label>
             <input type="text" id="config-title-font" class="form-control" ng-model="config.displayElementConfigs.slideTitle.fontName">
         </div>
-        <div class="form-group">
-            <label for="config-title-color">Slide Title Color</label>
-            <div class="row">
-                <div class="col-xs-6 col-sm-3">
-                    <input type="color" class="form-control" ng-model="titleColorHex">
-                </div>
-                <div class="col-xs-6 col-sm-9">
-                    <input type="text" id="config-title-color" class="form-control" ng-model="titleColorHex">
-                </div>    
-            </div>
-        </div>
+                   
+        <ang-color-picker title="Slide Title Color" color="config.displayElementConfigs.slideTitle.color"></ang-color-picker>
+       
         <div class="form-group">
             <label for="config-title-size-w">Slide Title Size</label>
             <div class="input-group">
@@ -56,17 +50,9 @@
             <label for="config-content-font">Slide Content Font</label>
             <input type="text" id="config-content-font" class="form-control" ng-model="config.displayElementConfigs.slideContent.fontName">
         </div>
-        <div class="form-group">
-            <label for="config-content-color">Slide Content Color</label>
-            <div class="row">
-                <div class="col-xs-6 col-sm-3">
-                    <input type="color" id="config-content-color" class="form-control" ng-model="contentColorHex">
-                </div>
-                <div class="col-xs-6 col-sm-9">
-                    <input type="text" class="form-control" ng-model="contentColorHex">
-                </div>    
-            </div>
-        </div>
+        
+        <ang-color-picker title="Slide Content Color" color="config.displayElementConfigs.slideContent.color"></ang-color-picker>
+       
         <div class="form-group">
             <label for="config-content-size-w">Slide Content Size</label>
             <div class="input-group">
