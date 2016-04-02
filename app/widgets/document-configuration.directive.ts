@@ -1,6 +1,5 @@
 /// <reference path="../app-typings.d.ts" />
 namespace TxtToPp.Widgets {
-    'use strict';
 
     interface IDocumentConfigScope extends angular.IScope {
         config: TxtToPp.Interfaces.IProPresenterDocConfig;

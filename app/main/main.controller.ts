@@ -1,6 +1,5 @@
 /// <reference path="../app-typings.d.ts" />
 namespace TxtToPp.Controllers {
-    'use strict';
     
     const fileExt = "pro5";
 

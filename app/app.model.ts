@@ -1,6 +1,5 @@
 /// <reference path="app-typings.d.ts" />
 namespace TxtToPp.Interfaces {
-    'use strict';
 
     export interface ISlide {
         content: string;
