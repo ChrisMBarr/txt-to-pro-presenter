@@ -1,6 +1,6 @@
 #Text-To-ProPresenter
 
-##Demo: http://chrismbarr.github.io/txt-to-pro-presenter/
+##Demo: http://finitelooper.github.io/txt-to-pro-presenter/
 
 ###TODO Items
 
