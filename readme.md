@@ -1,8 +1,8 @@
-#Text-To-ProPresenter
+# Text-To-ProPresenter
 
-##Demo: http://finitelooper.github.io/txt-to-pro-presenter/
+## Demo: http://chrismbarr.github.io/txt-to-pro-presenter/
 
-###TODO Items
+### TODO Items
 
  * mobile detection/prevention (since you can't download/run pp files on mobile devices)
  * unit tests
@@ -16,7 +16,7 @@
  * Drag-n-drop slide re-ordering
  * Slide groups
 
-####Requirements
+#### Requirements
 
 * [NodeJS](https://nodejs.org/en/)
 * NPM
